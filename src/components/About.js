@@ -1,7 +1,7 @@
 // import React,{ useContext,useEffect } from 'react'
 
-const About=()=> {
-  
+const About = () => {
+
   return (
     <div>
       This is About page

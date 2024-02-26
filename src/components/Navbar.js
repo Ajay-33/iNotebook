@@ -2,12 +2,13 @@ import React from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 function Navbar() {
-    let location=useLocation();
-    const navigate=useNavigate()
-    const handleLogOut=()=>{
+    let location = useLocation();
+    const navigate = useNavigate()
+    const handleLogOut = () => {
         localStorage.removeItem('token');
         navigate('/login')
     }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -18,16 +19,16 @@ function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname==="/"?"active":""}`} aria-current="page" to="/">Home</Link>
+                            <Link className={`nav-link ${location.pathname === "/" ? "active" : ""}`} aria-current="page" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname==="/about"?"active":""}`} to="/about">About</Link>
+                            <Link className={`nav-link ${location.pathname === "/about" ? "active" : ""}`} to="/about">About</Link>
                         </li>
                     </ul>
-                    {!localStorage.getItem('token')?<form className="d-flex">
+                    {!localStorage.getItem('token') ? <form className="d-flex">
                         <Link className="btn btn-primary mx-2" to='/login' role='button'>Login</Link>
                         <Link className="btn btn-primary mx-2" to='/signup' role='button'>Signup</Link>
-                    </form>:<button onClick={handleLogOut} className='btn btn-primary mx-1'>Logout</button>}
+                    </form> : <button onClick={handleLogOut} className='btn btn-primary mx-1'>Logout</button>}
                 </div>
             </div>
         </nav>

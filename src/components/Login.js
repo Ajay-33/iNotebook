@@ -1,45 +1,48 @@
-import React,{useState} from 'react'
-import {useNavigate} from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Login(props) {
-    const [credentials, setCredentials] = useState({email:"",password:""})
-    let navigate=useNavigate();
-    const handleSubmission=async(e)=>{
+    const [credentials, setCredentials] = useState({ email: "", password: "" })
+    let navigate = useNavigate();
+
+    const onChange = (e) => {
+        setCredentials({ ...credentials, [e.target.name]: e.target.value })
+    }
+
+    const handleSubmission = async (e) => {
         e.preventDefault()
-        const response=await fetch("http://localhost:5000/api/auth/login",{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
+        const response = await fetch("http://localhost:5000/api/auth/login", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body:JSON.stringify({email:credentials.email,password:credentials.password})
+            body: JSON.stringify({ email: credentials.email, password: credentials.password })
         });
-        const json=await response.json();
-        if(json.success){
-            localStorage.setItem('token',json.authtoken)
+        const json = await response.json();
+        if (json.success) {
+            localStorage.setItem('token', json.authtoken)
             navigate("/")
-            props.showAlert("Logged in Succesfully","success")
+            props.showAlert("Logged in Succesfully", "success")
 
         }
-        else{
-            props.showAlert("Invalid Credentials","danger")
+        else {
+            props.showAlert("Invalid Credentials", "danger")
 
         }
     }
-    const onChange=(e)=>{
-        setCredentials({...credentials,[e.target.name]:e.target.value})
-      }
+
     return (
         <div className='mt-2'>
             <h2 className='my-3'>Login to continue to iNotebook</h2>
             <form onSubmit={handleSubmission}>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
-                    <input type="email" className="form-control" value={credentials.email} onChange={onChange} id="email" name='email' aria-describedby="emailHelp"/>
-                        <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                    <input type="email" className="form-control" value={credentials.email} onChange={onChange} id="email" name='email' aria-describedby="emailHelp" />
+                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="passoword" className="form-label">Password</label>
-                    <input type="password" name='password' className="form-control" value={credentials.password} onChange={onChange} id="password"/>
+                    <input type="password" name='password' className="form-control" value={credentials.password} onChange={onChange} id="password" />
                 </div>
                 <button type="submit" className="btn btn-primary" onSubmit={handleSubmission}>Submit</button>
             </form>

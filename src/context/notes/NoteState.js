@@ -8,17 +8,22 @@ const NoteState=(props)=>{
 
 
     const getAllNotes=async()=>{
-
-        const response=await fetch(`${host}/api/notes/fetchallnotes`,{
+        try{const response=await fetch(`${host}/api/notes/fetchallnotes`,{
             method:'GET',
             headers:{
                 'Content-Type':'application/json',
-                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkYTAwOWQwMmZjNTA3NzRjMDE0MzlmIn0sImlhdCI6MTcwODg1NTE0MX0.avxcWxBNsQUmZVapRs5s3a1sU1I1SRIozGKYGKcedQQ'
+                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkYTAwOWQwMmZjNTA3NzRjMDE0MzlmIn0sImlhdCI6MTcwODkzNjIxNn0.KConVbGtCK7WODpQCpgqUyZ7Aws25w0Lp5j_bJ6K_34'
             }
         });
+        if (!response.ok) {
+            throw new Error('Failed to fetch notes');
+        }
         const json=await response.json();
-        console.log(json)
-        setNotes(json)
+        setNotes(json)}
+        catch(error){
+            console.error('Error fetching notes',error.message)
+        }
+        
     }
 
 
@@ -28,27 +33,26 @@ const NoteState=(props)=>{
             method:'POST',
             headers:{
                 'Content-Type':'application/json',
-                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkYTAwOWQwMmZjNTA3NzRjMDE0MzlmIn0sImlhdCI6MTcwODg1NTE0MX0.avxcWxBNsQUmZVapRs5s3a1sU1I1SRIozGKYGKcedQQ'
+                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkYTAwOWQwMmZjNTA3NzRjMDE0MzlmIn0sImlhdCI6MTcwODkzNjIxNn0.KConVbGtCK7WODpQCpgqUyZ7Aws25w0Lp5j_bJ6K_34'
             },
             body:JSON.stringify({title,description,tag})
         });
-        const json=response.json();
-        console.log(json)
-        const note= {
-            "_id": "65da02c8820a7440de848564567812",
-            "user": "65da009d02fc50774c01439f",
-            "title": title,
-            "description": description,
-            "tag": tag,
-            "createdAt": "2024-02-24T14:52:56.269Z",
-            "updatedAt": "2024-02-24T14:52:56.269Z",
-            "__v": 0
-        }
+        const note=await response.json();
+
         setNotes(notes.concat(note))
     }
+
     // Delete a note
-    const deleteNote=async(_id)=>{
-        const newNotes=notes.filter((note)=>{return note._id!==_id})
+    const deleteNote=async(id)=>{
+        const response=await fetch(`${host}/api/notes/deletenote/${id}`,{
+            method:'DELETE',
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkYTAwOWQwMmZjNTA3NzRjMDE0MzlmIn0sImlhdCI6MTcwODkzNjIxNn0.KConVbGtCK7WODpQCpgqUyZ7Aws25w0Lp5j_bJ6K_34'
+            },
+        });
+        const json=await response.json();
+        const newNotes=notes.filter((note)=>{return note._id!==id})
         setNotes(newNotes)
     }
     // Edit a note
@@ -58,16 +62,16 @@ const NoteState=(props)=>{
             method:'PUT',
             headers:{
                 'Content-Type':'application/json',
-                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkYTAwOWQwMmZjNTA3NzRjMDE0MzlmIn0sImlhdCI6MTcwODg1NTE0MX0.avxcWxBNsQUmZVapRs5s3a1sU1I1SRIozGKYGKcedQQ'
+                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkYTAwOWQwMmZjNTA3NzRjMDE0MzlmIn0sImlhdCI6MTcwODkzNjIxNn0.KConVbGtCK7WODpQCpgqUyZ7Aws25w0Lp5j_bJ6K_34'
             },
             body:JSON.stringify({title,description,tag})
         });
         const json=response.json();
-        console.log(json)
-        
+
+        let newNotes=JSON.parse(JSON.stringify(notes))
         // Logic to edit in Client
-        for (let index = 0; index < notes.length; index++) {
-            const element = notes[index];
+        for (let index = 0; index < newNotes.length; index++) {
+            const element = newNotes[index];
             if(element._id===_id){
                 element.title=title
                 element.description=description
@@ -75,6 +79,7 @@ const NoteState=(props)=>{
             }
             
         }
+        setNotes(newNotes)
     }
 
     return(

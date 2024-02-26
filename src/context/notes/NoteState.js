@@ -8,11 +8,12 @@ const NoteState=(props)=>{
 
 
     const getAllNotes=async()=>{
+        console.log(localStorage.getItem('token'))
         try{const response=await fetch(`${host}/api/notes/fetchallnotes`,{
             method:'GET',
             headers:{
                 'Content-Type':'application/json',
-                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkYTAwOWQwMmZjNTA3NzRjMDE0MzlmIn0sImlhdCI6MTcwODkzNjIxNn0.KConVbGtCK7WODpQCpgqUyZ7Aws25w0Lp5j_bJ6K_34'
+                'Authorization':'Bearer '+localStorage.getItem('token')
             }
         });
         if (!response.ok) {
@@ -33,7 +34,7 @@ const NoteState=(props)=>{
             method:'POST',
             headers:{
                 'Content-Type':'application/json',
-                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkYTAwOWQwMmZjNTA3NzRjMDE0MzlmIn0sImlhdCI6MTcwODkzNjIxNn0.KConVbGtCK7WODpQCpgqUyZ7Aws25w0Lp5j_bJ6K_34'
+                'Authorization':'Bearer '+localStorage.getItem('token')
             },
             body:JSON.stringify({title,description,tag})
         });
@@ -48,10 +49,12 @@ const NoteState=(props)=>{
             method:'DELETE',
             headers:{
                 'Content-Type':'application/json',
-                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkYTAwOWQwMmZjNTA3NzRjMDE0MzlmIn0sImlhdCI6MTcwODkzNjIxNn0.KConVbGtCK7WODpQCpgqUyZ7Aws25w0Lp5j_bJ6K_34'
+                'Authorization':'Bearer '+localStorage.getItem('token')
             },
         });
         const json=await response.json();
+        console.log(json)
+        
         const newNotes=notes.filter((note)=>{return note._id!==id})
         setNotes(newNotes)
     }
@@ -62,11 +65,12 @@ const NoteState=(props)=>{
             method:'PUT',
             headers:{
                 'Content-Type':'application/json',
-                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkYTAwOWQwMmZjNTA3NzRjMDE0MzlmIn0sImlhdCI6MTcwODkzNjIxNn0.KConVbGtCK7WODpQCpgqUyZ7Aws25w0Lp5j_bJ6K_34'
+                'Authorization':'Bearer '+localStorage.getItem('token')
             },
             body:JSON.stringify({title,description,tag})
         });
-        const json=response.json();
+        const json=await response.json();
+        console.log(json)
 
         let newNotes=JSON.parse(JSON.stringify(notes))
         // Logic to edit in Client

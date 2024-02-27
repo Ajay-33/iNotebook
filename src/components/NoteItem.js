@@ -9,12 +9,12 @@ function NoteItem(props) {
 
   const renderTag = () => {
     if (!note.tag) {
-      return <span className="badge" style={{ backgroundColor: '#E25822', position: 'absolute', top: 0, right: 0 }}>Add Tag</span>;
+      return <span className="badge" style={{backgroundColor: '#E25822',position: 'absolute', top: 0, right: 0 }}>Add Tag</span>;
     }
     if (note.tag.length > 7) {
-      return <span className="badge" style={{ backgroundColor: '#4169e1', position: 'absolute', top: 0, right: 0 }}>{note.tag.slice(0, 8)}...</span>;
+      return <span className="badge" style={{ backgroundColor: '#4169e1',position: 'absolute', top: 0, right: 0 }}>{note.tag.slice(0, 8)}...</span>;
     }
-    return <span className="badge" style={{ backgroundColor: '#4169e1', position: 'absolute', top: 0, right: 0 }}>{note.tag}</span>;
+    return <span className="badge" style={{ backgroundColor: '#4169e1',position: 'absolute', top: 0, right: 0 }}>{note.tag}</span>;
   };
 
   const formatUpdatedAt = (updatedAt) => {
@@ -31,13 +31,12 @@ function NoteItem(props) {
   };
 
   return (
-    <div className='col-md-3'>
+    <div className='col-md-4'>
       <div className="card my-3 position-relative">
-        <div style={{ display: 'flex', justifyContent: 'flex-end', position: 'absolute', right: '0' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', position: 'absolute', top: '0', right: '0' }}>
           {renderTag()}
         </div>
         <div className="card-body d-flex flex-column">
-
           <div className="d-flex justify-content-between align-items-center">
             <h5 className="card-title">{note.title}</h5>
             <div>
@@ -45,7 +44,7 @@ function NoteItem(props) {
               <i className="fa-solid fa-pen mx-2" onClick={() => { updateNote(note) }}></i>
             </div>
           </div>
-          <p className="card-text flex-grow-1">{note.description}</p>
+          <p className="card-text">{note.description}</p>
           <small className="text-muted">{formatUpdatedAt(note.updatedAt)}</small>
         </div>
       </div>

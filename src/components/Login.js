@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
-    const [credentials, setCredentials] = useState({ email: "", password: "" })
+    const [credentials, setCredentials] = useState({ email: "", password: "" });
     let navigate = useNavigate();
 
     const onChange = (e) => {
-        setCredentials({ ...credentials, [e.target.name]: e.target.value })
+        setCredentials({ ...credentials, [e.target.name]: e.target.value });
     }
 
     const handleSubmission = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         const response = await fetch("http://localhost:5000/api/auth/login", {
             method: 'POST',
             headers: {
@@ -20,34 +20,44 @@ function Login(props) {
         });
         const json = await response.json();
         if (json.success) {
-            localStorage.setItem('token', json.authtoken)
-            navigate("/")
-            props.showAlert("Logged in Succesfully", "success")
+            localStorage.setItem('token', json.authtoken);
+            navigate("/");
+            props.showAlert("Logged in Successfully", "success");
 
         }
         else {
-            props.showAlert("Invalid Credentials", "danger")
+            props.showAlert("Invalid Credentials", "danger");
 
         }
     }
 
     return (
-        <div className='mt-2'>
-            <h2 className='my-3'>Login to continue to iNotebook</h2>
-            <form onSubmit={handleSubmission}>
-                <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email address</label>
-                    <input type="email" className="form-control" value={credentials.email} onChange={onChange} id="email" name='email' aria-describedby="emailHelp" />
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+        <div className='container mt-5'>
+            <div className='row justify-content-center'>
+                <div className='col-md-6'>
+                    <div className='card'>
+                        <div className='card-body'>
+                            <h2 className='card-title text-center mb-4'>Login to iNotebook</h2>
+                            <form onSubmit={handleSubmission}>
+                                <div className="mb-3">
+                                    <label htmlFor="email" className="form-label">Email address</label>
+                                    <input type="email" className="form-control" value={credentials.email} onChange={onChange} id="email" name='email' aria-describedby="emailHelp" />
+                                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="password" className="form-label">Password</label>
+                                    <input type="password" name='password' className="form-control" value={credentials.password} onChange={onChange} id="password" />
+                                </div>
+                                <div className='d-grid'>
+                                    <button type="submit" className="btn btn-primary btn-lg">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="passoword" className="form-label">Password</label>
-                    <input type="password" name='password' className="form-control" value={credentials.password} onChange={onChange} id="password" />
-                </div>
-                <button type="submit" className="btn btn-primary" onSubmit={handleSubmission}>Submit</button>
-            </form>
+            </div>
         </div>
-    )
+    );
 }
 
-export default Login
+export default Login;

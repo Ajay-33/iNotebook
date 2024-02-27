@@ -38,7 +38,7 @@ function Signup(props) {
         <div className='container mt-5'>
             <div className='row justify-content-center'>
                 <div className='col-md-6'>
-                    <div className='card'>
+                    <div className='card' style={{ backgroundColor: props.mode === 'dark' ? '#262626' : 'white', color: props.mode === 'dark' ? 'white' : 'black', border: props.mode === 'dark' ? '1px solid white' : '1px solid black' }}>
                         <div className='card-body'>
                             <h2 className='card-title text-center mb-4'>Create an account</h2>
                             <form onSubmit={handleSubmission}>
@@ -59,8 +59,9 @@ function Signup(props) {
                                     <input type="password" className="form-control" id="cpassword" name='cpassword' required minLength={5} onChange={onChange} />
                                 </div>
                                 <div className='d-grid'>
-                                    <button type="submit" className="btn btn-primary btn-lg">Sign Up</button>
+                                    <button type="submit" className={`btn btn-${props.mode === 'dark' ? 'danger' : 'primary'} btn-lg`} >Sign Up</button>
                                 </div>
+
                             </form>
                         </div>
                     </div>

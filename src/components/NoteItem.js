@@ -9,12 +9,12 @@ function NoteItem(props) {
 
   const renderTag = () => {
     if (!note.tag) {
-      return <span className="badge" style={{backgroundColor: '#E25822',position: 'absolute', top: 0, right: 0 }}>Add Tag</span>;
+      return <span className="badge" style={{ backgroundColor: '#E25822', position: 'absolute', top: 0, right: 0 }}>Add Tag</span>;
     }
     if (note.tag.length > 7) {
-      return <span className="badge" style={{ backgroundColor: '#4169e1',position: 'absolute', top: 0, right: 0 }}>{note.tag.slice(0, 8)}...</span>;
+      return <span className="badge" style={{ backgroundColor: '#4169e1', position: 'absolute', top: 0, right: 0 }}>{note.tag.slice(0, 8)}...</span>;
     }
-    return <span className="badge" style={{ backgroundColor: '#4169e1',position: 'absolute', top: 0, right: 0 }}>{note.tag}</span>;
+    return <span className="badge" style={{ backgroundColor: '#4169e1', position: 'absolute', top: 0, right: 0 }}>{note.tag}</span>;
   };
 
   const formatUpdatedAt = (updatedAt) => {
@@ -32,11 +32,11 @@ function NoteItem(props) {
 
   return (
     <div className='col-md-4'>
-      <div className="card my-3 position-relative">
+      <div className="card my-3 position-relative" style={{ backgroundColor: props.mode === 'dark' ? '#262626' : '#F5F5F5', color: props.mode === 'dark' ? 'white' : 'black', border: props.mode === 'dark' ? '1px solid white' : '1px solid black' }} >
         <div style={{ display: 'flex', justifyContent: 'flex-end', position: 'absolute', top: '0', right: '0' }}>
           {renderTag()}
         </div>
-        <div className="card-body d-flex flex-column">
+        <div className="card-body d-flex flex-column" >
           <div className="d-flex justify-content-between align-items-center">
             <h5 className="card-title">{note.title}</h5>
             <div>

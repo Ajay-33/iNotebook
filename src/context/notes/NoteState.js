@@ -6,6 +6,7 @@ const NoteState = (props) => {
     const notesInitial = []
     const [notes, setNotes] = useState(notesInitial)
 
+
     const getAllNotes = async () => {
         console.log(localStorage.getItem('token'))
         try {
